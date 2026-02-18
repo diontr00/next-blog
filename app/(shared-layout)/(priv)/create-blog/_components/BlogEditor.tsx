@@ -25,6 +25,7 @@ import "@/components/tiptap-node/paragraph-node/paragraph-node.scss";
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint";
 import { useWindowSize } from "@/hooks/use-window-size";
 import { useCursorVisibility } from "@/hooks/use-cursor-visibility";
+import DOMPurify from "dompurify";
 
 import { MAX_FILE_LIMIT, MAX_FILE_SIZE } from "@/constants";
 
@@ -86,6 +87,8 @@ export function BlogEditor() {
       toast.error("Your blog cannot be empty");
       return;
     }
+
+    const sanitizedHTML = DOMPurify.sanitize(html);
     if (uploadedImages.size > 0) {
       await Promise.all(
         uploadedImages.values().map((v) => updateImgNode(v.tempUrl, v.url)),
@@ -99,7 +102,7 @@ export function BlogEditor() {
       }
     }
 
-    form.setFieldValue("body", html);
+    form.setFieldValue("body", sanitizedHTML);
 
     try {
       await createBlogAction({

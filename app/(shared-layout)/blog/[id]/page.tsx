@@ -12,7 +12,6 @@ import { api } from "@/convex/_generated/api";
 import CommentSection from "./_components/CommentSection";
 import { Metadata } from "next";
 import { BlogPresence } from "./_components/BlogPresence";
-import DOMPurify from "isomorphic-dompurify";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -51,7 +50,6 @@ export default async function BlogPage({
 
 async function LoadBlog({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  console.log(id);
 
   const [blog, preLoadComment] = await Promise.all([
     await fetchBlogAction(id as Id<"posts">),
@@ -97,9 +95,8 @@ async function LoadBlog({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       <Separator className="my-8" />
-      <div
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.body) }}
-      />
+      <div dangerouslySetInnerHTML={{ __html: blog.body }} />
+
       <Separator className="my-8" />
       <CommentSection
         preloadedComments={preLoadComment}
