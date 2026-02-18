@@ -86,35 +86,36 @@ export function BlogEditor() {
       toast.error("Your blog cannot be empty");
       return;
     }
-    if ([...uploadedImages.keys()].length > 0) {
+    if (uploadedImages.size > 0) {
       await Promise.all(
         uploadedImages.values().map((v) => updateImgNode(v.tempUrl, v.url)),
       );
-    }
 
-    for (const [, img] of uploadedImages) {
-      if (!html.includes(img.url)) {
-        removeBlogImageAction(img.storageId as Id<"_storage">);
+      for (const [, img] of uploadedImages) {
+        if (!html.includes(img.url)) {
+          removeBlogImageAction(img.storageId as Id<"_storage">);
+        }
+        URL.revokeObjectURL(img.tempUrl);
       }
-      URL.revokeObjectURL(img.tempUrl);
     }
 
     form.setFieldValue("body", html);
 
     try {
+      console.log(1);
       await createBlogAction({
         title: title,
         body: html,
         thumbnail: thumbnail,
       });
+      console.log(2);
       toast.success("Successfully created new post");
       router.replace("/");
     } catch (error) {
       if (error instanceof ConvexError || error instanceof Error) {
-        console.log(error);
-
         toast.error("Couldn't upload your blog");
       }
+      console.error("a", error);
     }
   }
 

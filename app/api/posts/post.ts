@@ -62,6 +62,7 @@ export async function fetchBlogAction(id: Id<"posts">) {
 export async function createBlogAction(
   values: z.infer<typeof BlogMutaionSchema>,
 ) {
+  console.log(3);
   const parsed = BlogMutaionSchema.safeParse(values);
   if (!parsed.success) {
     throw new Error(`Invalid Data Format`);
@@ -71,6 +72,8 @@ export async function createBlogAction(
   if (!token) {
     throw new Error(`Unauthorized`);
   }
+
+  console.log(4);
   try {
     let storageId;
     if (parsed.data.thumbnail) {
