@@ -45,7 +45,6 @@ import { createBlogAction, removeBlogImageAction } from "@/app/api/posts/post";
 import CustomDropZone from "@/components/web/CustomDropZone";
 import { useUploadImg } from "./hooks/useUploadImg";
 import { Id } from "@/convex/_generated/dataModel";
-import { RedirectType, redirect } from "next/navigation";
 import { ImageResize } from "tiptap-extension-resize-image";
 import { useRouter } from "next/navigation";
 
@@ -111,8 +110,11 @@ export function BlogEditor() {
       toast.success("Successfully created new post");
       router.replace("/");
     } catch (error) {
-      if (error instanceof ConvexError || error instanceof Error)
-        toast.error(error.message);
+      if (error instanceof ConvexError || error instanceof Error) {
+        console.log(error);
+
+        toast.error("Couldn't upload your blog");
+      }
     }
   }
 
