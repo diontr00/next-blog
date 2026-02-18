@@ -47,12 +47,12 @@ export default function BlogPage() {
 }
 
 async function LoadBlogList() {
-  await connection(); // this is the runtime api , that mean we generate this at runtime
-  // "use cache"; // this is at build , cache level
+  // await connection(); // this is the runtime api , that mean we generate this at runtime
+  "use cache"; // this is at build , cache level
   // by default revalidate by 15 mins
   // timebase revalidation
-  // cacheLife("hours"); // every
-  // cacheTag("blogs");
+  cacheLife("hours"); // every
+  cacheTag("blogs");
   const blogs = await fetchQuery(api.posts.fetchPosts);
 
   return (
