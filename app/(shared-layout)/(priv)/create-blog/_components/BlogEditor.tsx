@@ -93,13 +93,13 @@ export function BlogEditor() {
       await Promise.all(
         uploadedImages.values().map((v) => updateImgNode(v.tempUrl, v.url)),
       );
+    }
 
-      for (const [, img] of uploadedImages) {
-        if (!html.includes(img.url)) {
-          removeBlogImageAction(img.storageId as Id<"_storage">);
-        }
-        URL.revokeObjectURL(img.tempUrl);
+    for (const [, img] of uploadedImages) {
+      if (!html.includes(img.url)) {
+        removeBlogImageAction(img.storageId as Id<"_storage">);
       }
+      URL.revokeObjectURL(img.tempUrl);
     }
 
     form.setFieldValue("body", sanitizedHTML);
