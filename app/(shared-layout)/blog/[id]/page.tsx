@@ -13,6 +13,7 @@ import CommentSection from "./_components/CommentSection";
 import { Metadata } from "next";
 import { BlogPresence } from "./_components/BlogPresence";
 import DOMPurify from "isomorphic-dompurify";
+import { toast } from "sonner";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -51,11 +52,13 @@ export default async function BlogPage({
 
 async function LoadBlog({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  console.log(id);
+
   const [blog, preLoadComment] = await Promise.all([
     await fetchBlogAction(id as Id<"posts">),
     await preloadQuery(api.comments.getCommentsByPostId, {
       postId: id as Id<"posts">,
-    }),
+    }).catch((e) => toast.error("Could fetch blog")),
   ]);
   const user = await fetchQuery(api.posts.getAuthorId, {
     // @ts-expect-error: better auth table missing id
