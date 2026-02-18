@@ -1,0 +1,30 @@
+.simple-editor-wrapper {
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+  z-index: -1;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+  flex: 1;
+  padding: 2rem 0.5rem 2rem;
+
+  .ResizableImage-resizer {
+    border: 2px solid red;
+  }
+
+  img.resizable {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    &.ProseMirror-selectednode {
+      outline: 3px solid red;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .simple-editor-content .tiptap.ProseMirror.simple-editor {
+    padding: 1rem 0.5rem 2rem;
+  }
+}
