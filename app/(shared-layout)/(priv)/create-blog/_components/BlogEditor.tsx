@@ -102,20 +102,17 @@ export function BlogEditor() {
     form.setFieldValue("body", html);
 
     try {
-      console.log(1);
       await createBlogAction({
         title: title,
         body: html,
         thumbnail: thumbnail,
       });
-      console.log(2);
       toast.success("Successfully created new post");
       router.replace("/");
     } catch (error) {
       if (error instanceof ConvexError || error instanceof Error) {
         toast.error("Couldn't upload your blog");
       }
-      console.error("a", error);
     }
   }
 

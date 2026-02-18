@@ -2,7 +2,6 @@
 import z from "zod";
 import { BlogMutaionSchema } from "@/app/_schemas/blog";
 import { getToken } from "@/lib/auth-server";
-import DOMPurify from "isomorphic-dompurify";
 
 import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
@@ -106,7 +105,7 @@ export async function createBlogAction(
     await fetchMutation(
       api.posts.createPost,
       {
-        body: DOMPurify.sanitize(parsed.data.body),
+        body: parsed.data.body,
         title: parsed.data.title,
         thumbnail: storageId,
       },
